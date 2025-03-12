@@ -1,12 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import useCanvasStore from "@/store/canvasStore";
-import { Upload, RefreshCw, X, Loader } from "lucide-react";
+import { Upload, RefreshCw, X, Loader, Image } from "lucide-react";
 import { fetchRandomImages } from "../services/imageService";
-
-type UnsplashImage = {
-  url: string;
-  thumb: string; 
-};
 
 const ImagePicker = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -14,14 +9,11 @@ const ImagePicker = () => {
     backgroundImage,
     setBackgroundImage,
     setBackgroundType,
-    unsplashImages,
-    setUnsplashImages,
     isUnsplashLoading,
     setIsUnsplashLoading,
   } = useCanvasStore();
 
   const [activeTab, setActiveTab] = useState<"upload" | "unsplash">("upload");
-  const [searchQuery, setSearchQuery] = useState("code");
 
   useEffect(() => {
     if (activeTab === "unsplash" && unsplashImages.length === 0) {
@@ -32,7 +24,7 @@ const ImagePicker = () => {
   const fetchUnsplashImages = async () => {
     setIsUnsplashLoading(true);
     try {
-      const images = await fetchRandomImages(searchQuery);
+      const images = await fetchRandomImages();
       setUnsplashImages(images);
     } finally {
       setIsUnsplashLoading(false);
@@ -75,7 +67,10 @@ const ImagePicker = () => {
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex gap-3">
+      {/* <div>
+        <Image />
+      </div> */}
       <div className="flex border border-gray-600 rounded-md overflow-hidden mb-2">
         <button
           className={`flex-1 py-2 text-xs ${
@@ -98,7 +93,6 @@ const ImagePicker = () => {
           Unsplash
         </button>
       </div>
-
       {activeTab === "upload" ? (
         <div className="flex flex-col gap-3">
           <button
@@ -108,25 +102,10 @@ const ImagePicker = () => {
             <Upload size={16} />
             Upload Image
           </button>
-
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
-            className="hidden"
-          />
         </div>
       ) : (
-        <div className="flex flex-col gap-3 z-10 absolute">
+        <div className="flex flex-col gap-3 z-10 absolute bottom-20">
           <form onSubmit={handleSearch} className="flex gap-2">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search images..."
-              className="flex-1 bg-gray-700 border border-gray-600 rounded-md px-2 py-1 text-sm text-white"
-            />
             <button
               type="submit"
               className="bg-gray-700 hover:bg-gray-600 p-1 rounded-md"
@@ -146,7 +125,7 @@ const ImagePicker = () => {
             </div>
           ) : (
             <div className="grid grid-cols-3 gap-2 mt-2 max-h-60 overflow-y-auto">
-              {unsplashImages.map((image, index) => (
+              {unsplashImages?.map((image, index) => (
                 <div
                   key={index}
                   className="relative cursor-pointer group rounded-md overflow-hidden"

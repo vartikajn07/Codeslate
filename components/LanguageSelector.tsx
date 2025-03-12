@@ -31,7 +31,7 @@ const LanguageSelector = () => {
         </div>
 
         {dropDown && (
-          <div className="dropdown-menu z-10 w-[120px] top-[17.7rem]">
+          <div className="dropdown-menu z-10 w-[120px] bottom-[70px]">
             {languages.map((lang, i) => {
               return (
                 <div key={i}>

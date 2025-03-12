@@ -17,7 +17,7 @@ const ColorSelector = () => {
     <OutsideClickHandler onOutsideClick={() => setDropdown(false)}>
       <h1 onClick={handleDropdown}>Colors</h1>
       {dropDown && (
-        <div className="absolute z-10 mt-1">
+        <div className="absolute z-10 bottom-16">
           <HexColorPicker
             color={color || "#1e1e1e"}
             onChange={setColor}

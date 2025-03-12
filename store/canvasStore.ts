@@ -12,7 +12,7 @@ export interface CanvasState {
   color: string;
   backgroundImage: string | null;
   backgroundType: "color" | "image";
-  unsplashImages: string[];
+  unsplashImage: string | null;
   isUnsplashLoading: boolean;
   photoCredit: string;
   triggerDownload: boolean;
@@ -25,7 +25,7 @@ export interface CanvasState {
   setColor: (color: string) => void;
   setBackgroundImage: (imageUrl: string | null) => void;
   setBackgroundType: (type: "color" | "image") => void;
-  setUnsplashImages: (images: string[]) => void;
+  setUnsplashImage: (image: string | null) => void;
   setIsUnsplashLoading: (isLoading: boolean) => void;
   setCodeWithPhotoCredit: (photoCredit: string) => void;
   setTriggerDownload: (value: boolean) => void;
@@ -57,18 +57,21 @@ const useCanvasStore = create<CanvasState>((set) => ({
   code: "",
   setCodeWithPhotoCredit: (photoCredit: string) =>
     set((state) => ({
-      code: `function guessMyNumber() {
-        const userGuess = prompt("Guess a number between 1 and 10:");
-        const secretNumber = Math.ceil(Math.random() * 10);
-      
-        if (parseInt(userGuess) === secretNumber) {
-          return "Wow, you must be a psychic!";
-        } else {
-          return \`Nope, the number was \${secretNumber}. Better luck next time!\`;
-        }
-      } 
+      code: `module.exports = leftpad;
+function leftpad(str, len, ch) {
+  str = String(str);
+  var i = -1;
 
-      ${photoCredit ? `// Photo by ${photoCredit} on Usplash` : ""}`,
+  if (!ch && ch !== 0) ch = " ";
+
+  len = len - str.length;
+
+  while (i++ < len) {
+    str = ch + str;
+  }
+  return str;
+}
+${photoCredit ? `// Photo by ${photoCredit} on Unsplash` : ""}`,
     })),
 
   setPhotoCredit: (credit) => set({ photoCredit: credit }),
@@ -81,7 +84,7 @@ const useCanvasStore = create<CanvasState>((set) => ({
   color: "",
   backgroundImage: null,
   backgroundType: "color",
-  unsplashImages: [],
+  unsplashImage: null,
   isUnsplashLoading: false,
   setCode: (code) => set({ code }),
   setTheme: (theme) => set({ theme }),
@@ -91,7 +94,7 @@ const useCanvasStore = create<CanvasState>((set) => ({
   setColor: (color) => set({ color }),
   setBackgroundImage: (imageUrl) => set({ backgroundImage: imageUrl }),
   setBackgroundType: (type) => set({ backgroundType: type }),
-  setUnsplashImages: (images) => set({ unsplashImages: images }),
+  setUnsplashImage: (image) => set({ unsplashImage: image }),
   setIsUnsplashLoading: (isLoading) => set({ isUnsplashLoading: isLoading }),
 }));
 

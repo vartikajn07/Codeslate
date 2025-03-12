@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Berkshire_Swash } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const berkshireSwash = Berkshire_Swash({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
   title: "Codeslate",
@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className}`} suppressHydrationWarning>
+      <body className={`${berkshireSwash.className}`} suppressHydrationWarning>
         {children}
       </body>
     </html>

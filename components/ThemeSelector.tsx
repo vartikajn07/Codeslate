@@ -23,12 +23,12 @@ const ThemeSelector = () => {
         <Palette />
         <div
           onClick={handleDropdown}
-          className="flex gap-2 capitalize w-[120px] hover:text-slate-50 transition-all duration-300 ease-in-out"
+          className="flex gap-2 capitalize w-[90px] hover:text-slate-50 transition-all duration-300 ease-in-out"
         >
           {theme} <ChevronDown />
         </div>
         {dropdown && (
-          <div className="dropdown-menu  relative top-[17.7rem] w-[120px]">
+          <div className="dropdown-menu relative bottom-[70px] w-[120px]">
             {themes.map((theme, i) => {
               return (
                 <button

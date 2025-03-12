@@ -1,11 +1,13 @@
 "use client";
 import { fetchRandomImages } from "@/services/imageService";
 import useCanvasStore from "@/store/canvasStore";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AceEditor from "react-ace";
 import html2canvas from "html2canvas";
 
 const CodeEditor = () => {
+  const [height, setHeight] = React.useState<number | null>(500);
+  const [title, setTitle] = useState("Untitled-1");
   const {
     code,
     setCodeWithPhotoCredit,
@@ -13,6 +15,7 @@ const CodeEditor = () => {
     setPhotoCredit,
     setCode,
     theme,
+    fontSize,
     padding,
     setPadding,
     setTheme,
@@ -33,12 +36,9 @@ const CodeEditor = () => {
 
   useEffect(() => {
     const getPhotoCredit = async () => {
-      const images = await fetchRandomImages();
-      if (images.length > 0) {
-        setPhotoCredit(images[0].user.name);
-      }
+      const image = await fetchRandomImages();
+      setPhotoCredit(image?.user.name);
     };
-
     getPhotoCredit();
   }, []);
 
@@ -69,60 +69,71 @@ const CodeEditor = () => {
     });
   };
 
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
   return (
-    <div className="mt-6 w-[50rem] h-[35rem] relative border border-1 border-white">
-      <div
-        id="codeSlate"
-        style={{
-          backgroundImage:
-            backgroundType === "image" && backgroundImage
-              ? `url(${backgroundImage})`
-              : undefined,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundColor: backgroundType === "color" ? color : undefined,
-          padding: `${padding}px`,
-        }}
-        className="code-block  h-[30rem] p-5 m-10 border border-1 border-slate-300 rounded-lg"
-      >
-        <div className=" border-b-1 border-slate-400">
-          <div className="dots flex items-center gap-[6px]">
-            <div className="w-3 h-3 rounded-full bg-[#ff5656]"></div>
-            <div className="w-3 h-3 rounded-full bg-[#ffbc6a] "></div>
-            <div className="w-3 h-3 rounded-full bg-[#67f772] "></div>
-          </div>
-          <div
-            className={`${
-              backgroundType === "image"
-                ? "backdrop-blur-sm bg-black bg-opacity-40 rounded-md"
-                : ""
-            }`}
-          >
-            <AceEditor
-              mode={language.toLocaleLowerCase()}
-              theme={theme}
-              onChange={handleCodeChange}
-              value={code}
-              name="UNIQUE_ID_OF_DIV"
-              editorProps={{ $blockScrolling: true }}
-              width="100%"
-              style={{ height: "25rem" }}
-              // fontSize={fontSize}
-              setOptions={{
-                enableBasicAutocompletion: true,
-                enableLiveAutocompletion: true,
-                enableSnippets: true,
-                showLineNumbers: true,
-                tabSize: 2,
-              }}
-              fontSize={16}
-              showGutter={false}
-              wrapEnabled={true}
-              showPrintMargin={false}
-              highlightActiveLine={false}
-              className="ace-editor"
-            />
-          </div>
+    <div
+      id="codeSlate"
+      style={{
+        backgroundImage:
+          backgroundType === "image" && backgroundImage
+            ? `url(${backgroundImage})`
+            : undefined,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundColor: backgroundType === "color" ? color : undefined,
+        padding: `${padding}px`,
+      }}
+      className="code-block mt-20 w-[50rem] h-[35rem] relative border border-1 border-white p-5 rounded-lg"
+    >
+      <div className="code-title mt-12 bg-black bg-opacity-80 rounded-t-lg relative ">
+        <div className="dots flex items-center gap-[6px] p-4">
+          <div className="w-3 h-3 rounded-full bg-[#ff5656]"></div>
+          <div className="w-3 h-3 rounded-full bg-[#ffbc6a] "></div>
+          <div className="w-3 h-3 rounded-full bg-[#67f772] "></div>
+        </div>
+        <div className="w-full absolute z-5 top-3 ">
+          <input
+            type="text"
+            value={title}
+            onChange={handleTitleChange}
+            className="w-full text-white  font-medium 
+                text-center bg-transparent"
+          />
+        </div>
+        <div
+          className={`${
+            backgroundType === "image" ? "backdrop-blur-sm rounded-lg" : ""
+          }`}
+        >
+          <AceEditor
+            mode={language.toLocaleLowerCase()}
+            theme={theme}
+            onChange={handleCodeChange}
+            value={code}
+            name="UNIQUE_ID_OF_DIV"
+            editorProps={{ $blockScrolling: true }}
+            style={{
+              height: `calc(${height}px - ${padding * 2}px  - 80px)`,
+              width: "100%",
+            }}
+            setOptions={{
+              enableBasicAutocompletion: true,
+              enableLiveAutocompletion: true,
+              enableSnippets: true,
+              showLineNumbers: true,
+              tabSize: 2,
+            }}
+            fontSize={fontSize}
+            showGutter={false}
+            wrapEnabled={true}
+            showPrintMargin={false}
+            // highlightActiveLine={true}
+            // vScrollBarAlwaysVisible={false}
+            className=" mt-2 pt-10"
+          />
         </div>
       </div>
     </div>

@@ -15,30 +15,30 @@ type Photo = {
   };
 };
 
-export const fetchRandomImages = async (query = "code", count = 1) => {
+export const fetchRandomImages = async () => {
   try {
     const response = await fetch(
-      `https://api.unsplash.com/photos/random?query=${query}&count=${count}&client_id=${UNSPLASH_ACCESS_KEY}`
+      `https://api.unsplash.com/photos/random?client_id=${UNSPLASH_ACCESS_KEY}`
     );
 
     if (!response.ok) {
-      throw new Error("Failed to fetch images");
+      const errorMessage = await response.text();
+      throw new Error(`Failed to fetch images: ${errorMessage}`);
     }
 
     const data = await response.json();
-    const formattedData = data.map((photo: Photo) => ({
-      id: photo.id,
-      url: photo.urls.regular,
-      thumb: photo.urls.thumb,
-      user: {
-        name: photo.user.name,
-        link: photo.user.links.html,
-      },
-    }));
 
-    return formattedData;
+    return {
+      id: data.id,
+      url: data.urls.regular,
+      thumb: data.urls.thumb,
+      user: {
+        name: data.user.name,
+        link: data.user.links.html,
+      },
+    };
   } catch (error) {
-    console.error("Error fetching Unsplash images:", error);
-    return [];
+    console.error("Error fetching Unsplash image:", error);
+    return null;
   }
 };
