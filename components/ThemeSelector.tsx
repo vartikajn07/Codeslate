@@ -1,49 +1,43 @@
 import useCanvasStore from "@/store/canvasStore";
 import { themes } from "@/utils/utilities";
-import { ChevronDown, Palette } from "lucide-react";
-
+import { ChevronUp, Palette } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import React, { useState } from "react";
-import OutsideClickHandler from "react-outside-click-handler";
 
 const ThemeSelector = () => {
   const { theme, setTheme } = useCanvasStore();
-  const [dropdown, setDropdown] = useState(false);
-
-  const handleDropdown = () => {
-    setDropdown(!dropdown);
-  };
 
   const handleThemeChange = (newTheme: string) => {
     setTheme(newTheme);
   };
 
   return (
-    <OutsideClickHandler onOutsideClick={() => setDropdown(false)}>
-      <div className="dropdown-title flex items-center gap-3 ">
-        <Palette />
-        <div
-          onClick={handleDropdown}
-          className="flex gap-2 capitalize w-[90px] hover:text-slate-50 transition-all duration-300 ease-in-out"
-        >
-          {theme} <ChevronDown />
-        </div>
-        {dropdown && (
-          <div className="dropdown-menu relative bottom-[70px] w-[120px]">
-            {themes.map((theme, i) => {
-              return (
-                <button
-                  key={i}
-                  onClick={() => handleThemeChange(theme)}
-                  className=" capitalize text-left hover:text-slate-50 transition-all duration-300 ease-in-out"
-                >
-                  {theme}
-                </button>
-              );
-            })}
-          </div>
-        )}
-      </div>
-    </OutsideClickHandler>
+    <div className="flex flex-col items-start gap-1">
+      <h1 className="text-sm font-sesame ">Theme</h1>
+      <DropdownMenu>
+        <DropdownMenuTrigger className="dropdown-title focus:outline-none font-sesame flex gap-2 items-center text-sm ">
+          {theme} <ChevronUp className="w-4 h-4" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="bg-[#191919] text-white">
+          {themes.map((theme, i) => (
+            <DropdownMenuItem
+              key={i}
+              onClick={() => handleThemeChange(theme)}
+              className="font-sesame"
+            >
+              {theme}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   );
 };
 

@@ -1,6 +1,7 @@
-//bg color and image selector
+//bg color
 "use client";
 import useCanvasStore from "@/store/canvasStore";
+import { Palette } from "lucide-react";
 import React, { useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import OutsideClickHandler from "react-outside-click-handler";
@@ -15,7 +16,8 @@ const ColorSelector = () => {
 
   return (
     <OutsideClickHandler onOutsideClick={() => setDropdown(false)}>
-      <h1 onClick={handleDropdown}>Colors</h1>
+      <Palette className="w-6 h-6 cursor-pointer" onClick={handleDropdown} />
+
       {dropDown && (
         <div className="absolute z-10 bottom-16">
           <HexColorPicker

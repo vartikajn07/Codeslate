@@ -56,6 +56,10 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      fontFamily: {
+        season: ["Season", "sans-serif"],
+        sesame: ["Sesame", "sans-serif"],
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

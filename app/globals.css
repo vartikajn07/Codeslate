@@ -4,8 +4,26 @@
 
 /* #121212 */
 :root {
-  --background: #121212;
+  --background: #0d0d0d;
   background-color: var(--background);
+}
+
+@font-face {
+  font-family: "season";
+  src: url("/fonts/Season-font-light.otf") format("opentype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "sesame";
+  src: url("/fonts/5ef912fc957bbdb4-s.p.woff") format("woff");
+  font-weight: 400;
+}
+
+/* third font is berkshire swash, which is working as fallback */
+
+.ace_scrollbar-v {
+  display: none !important;
 }
 
 .ace_editor {
@@ -13,10 +31,8 @@
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
   box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.2);
-
   border: 2px solid rgba(249, 249, 249, 0.08);
   border-top: none;
-
   font-weight: 500 !important;
   font-size: 17px !important;
   line-height: 1.5rem !important;

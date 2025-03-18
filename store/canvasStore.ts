@@ -15,8 +15,10 @@ export interface CanvasState {
   unsplashImage: string | null;
   isUnsplashLoading: boolean;
   photoCredit: string;
+  photoCreditLink: string;
   triggerDownload: boolean;
   setPhotoCredit: (credit: string) => void;
+  setPhotoCreditLink: (link: string) => void;
   setCode: (code: string) => void;
   setTheme: (theme: string) => void;
   setFontSize: (fontSize: number) => void;
@@ -25,7 +27,11 @@ export interface CanvasState {
   setColor: (color: string) => void;
   setBackgroundImage: (imageUrl: string | null) => void;
   setBackgroundType: (type: "color" | "image") => void;
-  setUnsplashImage: (image: string | null) => void;
+  setUnsplashImage: (
+    image: string | null,
+    credit: string,
+    link: string
+  ) => void;
   setIsUnsplashLoading: (isLoading: boolean) => void;
   setCodeWithPhotoCredit: (photoCredit: string) => void;
   setTriggerDownload: (value: boolean) => void;
@@ -75,13 +81,15 @@ ${photoCredit ? `// Photo by ${photoCredit} on Unsplash` : ""}`,
     })),
 
   setPhotoCredit: (credit) => set({ photoCredit: credit }),
+  photoCreditLink: "",
+  setPhotoCreditLink: (link) => set({ photoCreditLink: link }),
   triggerDownload: false,
   setTriggerDownload: (value) => set({ triggerDownload: value }),
   theme: "monokai",
   language: "javascript",
   padding: 16,
   fontSize: 14,
-  color: "",
+  color: "#121212",
   backgroundImage: null,
   backgroundType: "color",
   unsplashImage: null,
@@ -94,7 +102,8 @@ ${photoCredit ? `// Photo by ${photoCredit} on Unsplash` : ""}`,
   setColor: (color) => set({ color }),
   setBackgroundImage: (imageUrl) => set({ backgroundImage: imageUrl }),
   setBackgroundType: (type) => set({ backgroundType: type }),
-  setUnsplashImage: (image) => set({ unsplashImage: image }),
+  setUnsplashImage: (image, credit, link) =>
+    set({ unsplashImage: image, photoCredit: credit, photoCreditLink: link }),
   setIsUnsplashLoading: (isLoading) => set({ isUnsplashLoading: isLoading }),
 }));
 

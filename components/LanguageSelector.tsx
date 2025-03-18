@@ -1,18 +1,21 @@
 "use client";
 import useCanvasStore from "@/store/canvasStore";
 import { languages } from "@/utils/utilities";
-import { ChevronDown } from "lucide-react";
+import { ChevronUp } from "lucide-react";
 import React, { useState } from "react";
-import OutsideClickHandler from "react-outside-click-handler";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const LanguageSelector = () => {
   const { language, setLanguage } = useCanvasStore();
 
   const [dropDown, setDropdown] = useState(false);
-
-  const handleDropdown = () => {
-    setDropdown(!dropDown);
-  };
 
   const handleLangChange = (newLang: string) => {
     setLanguage(newLang);
@@ -20,34 +23,25 @@ const LanguageSelector = () => {
   };
 
   return (
-    <OutsideClickHandler onOutsideClick={() => setDropdown(false)}>
-      <div className="dropdown-title flex items-center">
-        <div
-          onClick={handleDropdown}
-          className="flex gap-2 capitalize w-[100px] hover:text-slate-50 transition-all duration-300 ease-in-out"
-        >
-          {language}
-          <ChevronDown />
-        </div>
-
-        {dropDown && (
-          <div className="dropdown-menu z-10 w-[120px] bottom-[70px]">
-            {languages.map((lang, i) => {
-              return (
-                <div key={i}>
-                  <button
-                    className="dropdown-item text-left hover:text-slate-50 transition-all duration-300 ease-in-out"
-                    onClick={() => handleLangChange(lang.name)}
-                  >
-                    {lang.name}
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
-    </OutsideClickHandler>
+    <div className="flex flex-col items-start gap-1">
+      <h1 className="text-sm font-sesame ">Language</h1>
+      <DropdownMenu>
+        <DropdownMenuTrigger className="dropdown-title focus:outline-none  font-sesame flex gap-2 items-center text-sm ">
+          {language} <ChevronUp className="w-4 h-4" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="bg-[#191919] text-white">
+          {languages.map((lang, i) => (
+            <DropdownMenuItem
+              key={i}
+              onClick={() => handleLangChange(lang.name)}
+              className="font-sesame"
+            >
+              {lang.name}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   );
 };
 

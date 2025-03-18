@@ -27,7 +27,7 @@ export const fetchRandomImages = async () => {
     }
 
     const data = await response.json();
-
+    console.log(data);
     return {
       id: data.id,
       url: data.urls.regular,
