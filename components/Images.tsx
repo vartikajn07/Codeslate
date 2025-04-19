@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Loader from "./Loader";
+// import Image from "next/image";
 
 const ImageSelectorNew = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -27,7 +28,7 @@ const ImageSelectorNew = () => {
 
   useEffect(() => {
     fetchUnsplashImages();
-  }, []);
+  });
 
   const fetchUnsplashImages = async () => {
     setIsUnsplashLoading(true);

@@ -37,7 +37,7 @@ const Share = ({
       });
     } catch (err) {
       toast({
-        title: "Failed to generate link.",
+        title: `Failed to generate link. ${err}`,
       });
     }
   };
@@ -74,7 +74,7 @@ const Share = ({
                     )
                   }
                 >
-                  <img src="/twitter.svg" alt="X-icon" className="w-6 h-6" />
+                  <Image src="/twitter.svg" alt="X-icon" className="w-6 h-6" />
                 </button>
                 <div
                   className="bg-[#FF4500] cursor-pointer rounded-3xl px-2"
