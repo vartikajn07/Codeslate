@@ -35,9 +35,9 @@ const Share = ({
       toast({
         title: "Link copied to clipboard.",
       });
-    } catch (err) {
+    } catch (err: unknown) {
       toast({
-        title: `Failed to generate link. ${err}`,
+        title: `Failed to generate link. ${(err as Error).message || err}`,
       });
     }
   };

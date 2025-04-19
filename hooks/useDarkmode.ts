@@ -4,6 +4,8 @@ export function useDarkMode() {
   const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const saved = localStorage.getItem("theme");
     if (saved === "dark") {
       document.documentElement.classList.add("dark");

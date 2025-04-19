@@ -70,6 +70,7 @@ const CodeEditor = ({
   }, [triggerDownload, image, setTriggerDownload]);
 
   const handleDownload = async (image: UnsplashImage) => {
+    if (typeof window === "undefined") return;
     if (!image) {
       return;
     }
