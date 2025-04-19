@@ -1,3 +1,4 @@
+"use client";
 import useCanvasStore from "@/store/canvasStore";
 import { themes } from "@/utils/utilities";
 import { ChevronUp } from "lucide-react";

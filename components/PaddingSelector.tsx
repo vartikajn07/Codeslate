@@ -1,3 +1,4 @@
+"use client";
 import useCanvasStore from "@/store/canvasStore";
 
 const PaddingSelector = () => {

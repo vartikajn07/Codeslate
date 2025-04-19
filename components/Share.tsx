@@ -1,3 +1,4 @@
+"use client";
 import { ClipboardCopy, Share2 } from "lucide-react";
 import React, { useState } from "react";
 import {
@@ -21,6 +22,8 @@ const Share = ({
   const { toast } = useToast();
 
   const handleGetLink = async () => {
+    if (typeof window === "undefined" || !navigator?.clipboard) return;
+
     if (shareUrl) {
       await navigator.clipboard.writeText(shareUrl);
       toast({
@@ -44,6 +47,28 @@ const Share = ({
 
   if (!imageFile) return null;
 
+  const handleTwitter = () => {
+    if (typeof window !== "undefined") {
+      window.open(
+        `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+          shareUrl
+        )}&text=Check%20out%20this%20code%20snippet!`,
+        "_blank"
+      );
+    }
+  };
+
+  const handleReddit = () => {
+    if (typeof window !== "undefined") {
+      window.open(
+        `https://www.reddit.com/submit?url=${encodeURIComponent(
+          shareUrl
+        )}&title=Check%20out%20this%20code%20snippet!`,
+        "_blank"
+      );
+    }
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="focus:outline-none" disabled={disabled}>
@@ -65,27 +90,13 @@ const Share = ({
               <>
                 <button
                   className="dark:bg-white bg-gray-300 rounded-2xl py-1 px-[10px]"
-                  onClick={() =>
-                    window.open(
-                      `https://twitter.com/intent/tweet?url=${encodeURIComponent(
-                        shareUrl
-                      )}&text=Check%20out%20this%20code%20snippet!`,
-                      "_blank"
-                    )
-                  }
+                  onClick={handleTwitter}
                 >
                   <Image src="/twitter.svg" alt="X-icon" className="w-6 h-6" />
                 </button>
                 <div
                   className="bg-[#FF4500] cursor-pointer rounded-3xl px-2"
-                  onClick={() =>
-                    window.open(
-                      `https://www.reddit.com/submit?url=${encodeURIComponent(
-                        shareUrl
-                      )}&title=Check%20out%20this%20code%20snippet!`,
-                      "_blank"
-                    )
-                  }
+                  onClick={handleReddit}
                 >
                   <Image
                     src={reddit}

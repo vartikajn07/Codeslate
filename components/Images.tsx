@@ -28,7 +28,7 @@ const ImageSelectorNew = () => {
 
   useEffect(() => {
     fetchUnsplashImages();
-  });
+  }, []);
 
   const fetchUnsplashImages = async () => {
     setIsUnsplashLoading(true);
@@ -56,8 +56,8 @@ const ImageSelectorNew = () => {
     fileInputRef.current?.click();
   };
 
-  const handleImageUpload = (e: React.ChangeEvent) => {
-    const file = (e.target as HTMLInputElement).files?.[0];
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (event) => {
@@ -98,7 +98,7 @@ const ImageSelectorNew = () => {
                   Photo by{" "}
                   <a
                     target="_blank"
-                    rel="noopener noreferer"
+                    rel="noopener noreferrer"
                     href={photoCreditLink}
                     className="underline"
                   >

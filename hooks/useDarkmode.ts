@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 
 export function useDarkMode() {
@@ -14,6 +15,7 @@ export function useDarkMode() {
   }, []);
 
   const toggle = () => {
+    if (typeof window === "undefined") return;
     const isDark = document.documentElement.classList.toggle("dark");
     localStorage.setItem("theme", isDark ? "dark" : "light");
     setEnabled(isDark);

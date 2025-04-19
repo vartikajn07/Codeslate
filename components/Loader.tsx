@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import loaderAnimation from "../public/LoaderAnimation.json";
 import Lottie from "lottie-react";
