@@ -1,21 +1,22 @@
-export const themes = ["monokai", "twilight", "terminal"];
+export const themes = [
+  "chrome",
+  "clouds",
+  "crimson_editor",
+  "dawn",
+  "eclipse",
+  "github",
+  "xcode",
+  "ambiance",
+  "clouds_midnight",
+  "cobalt",
+  "monokai",
+  "solarized_dark",
+  "terminal",
+  "twilight",
+  "tomorrow",
+];
 
 export const languages = [
-  {
-    name: "Bash",
-  },
-  {
-    name: "plain text",
-  },
-  {
-    name: "C++",
-  },
-  {
-    name: "CSS",
-  },
-  {
-    name: "HTML",
-  },
   {
     name: "Javascript",
   },
@@ -26,10 +27,37 @@ export const languages = [
     name: "Java",
   },
   {
+    name: "C++",
+  },
+  {
+    name: "C#",
+  },
+  {
+    name: "Ruby",
+  },
+  {
+    name: "Go",
+  },
+  {
+    name: "Rust",
+  },
+  {
     name: "Typescript",
   },
   {
-    name: "MySQL",
+    name: "HTML",
+  },
+  {
+    name: "JSON",
+  },
+  {
+    name: "SQL",
+  },
+  {
+    name: "XML",
+  },
+  {
+    name: "YAML",
   },
 ];
 

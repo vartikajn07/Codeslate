@@ -7,8 +7,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -23,13 +21,15 @@ const LanguageSelector = () => {
   };
 
   return (
-    <div className="flex flex-col items-start gap-1">
-      <h1 className="text-sm font-sesame ">Language</h1>
+    <div className="flex flex-col items-start gap-[2px]">
+      <h1 className="text-xs tracking-wide font-bold font-sesame text-gray-500 uppercase">
+        Language
+      </h1>
       <DropdownMenu>
-        <DropdownMenuTrigger className="dropdown-title focus:outline-none  font-sesame flex gap-2 items-center text-sm ">
+        <DropdownMenuTrigger className="rounded-md px-2 py-1 dark:bg-[#19191a] border dark:border-[#303030] text-black dark:text-white focus:outline-none font-sesame flex gap-2 items-center text-sm ">
           {language} <ChevronUp className="w-4 h-4" />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="bg-[#191919] text-white">
+        <DropdownMenuContent className="dark:bg-[#191919] bg-white text-black dark:text-white">
           {languages.map((lang, i) => (
             <DropdownMenuItem
               key={i}

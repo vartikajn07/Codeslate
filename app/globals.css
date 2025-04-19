@@ -3,10 +3,6 @@
 @tailwind utilities;
 
 /* #121212 */
-:root {
-  --background: #0d0d0d;
-  background-color: var(--background);
-}
 
 @font-face {
   font-family: "season";
@@ -27,34 +23,11 @@
 }
 
 .ace_editor {
-  background-color: rgba(0, 0, 0, 0.5);
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
-  box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.2);
-  border: 2px solid rgba(249, 249, 249, 0.08);
-  border-top: none;
-  font-weight: 500 !important;
-  font-size: 17px !important;
+  font-weight: 400 !important;
   line-height: 1.5rem !important;
 }
 
-.dropdown-title {
-  padding: 0.25rem 0.3rem 0.3rem 0.5rem;
-  height: 37px;
-  border-radius: 3px;
-  border: 1px solid rgba(249, 249, 249, 0.08);
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-
-.dropdown-menu {
-  padding: 0.25rem 0 0.4rem 0.5rem;
-  position: absolute;
-  background-color: #191919;
-  border: 1px solid #3c3c3c;
-  border-radius: 3px;
-}
-
+/* shadcn/ui */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -118,4 +91,83 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/*export button styles */
+.style-button {
+  cursor: pointer;
+  position: relative;
+}
+
+.style-button::before,
+.style-button::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.style-button--calypso {
+  overflow: hidden;
+}
+
+.style-button--calypso span {
+  display: flex;
+  position: relative;
+  mix-blend-mode: difference;
+  z-index: 10;
+}
+
+.style-button--calypso:hover span {
+  animation: MoveScaleUpInitial 0.3s forwards, MoveScaleUpEnd 0.3s forwards 0.3s;
+}
+
+@keyframes MoveScaleUpInitial {
+  to {
+    transform: translate3d(0, -105%, 0) scale3d(1, 2, 1);
+    opacity: 0;
+  }
+}
+
+@keyframes MoveScaleUpEnd {
+  from {
+    transform: translate3d(0, 100%, 0) scale3d(1, 2, 1);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+.style-button--calypso::before {
+  content: "";
+  background: #bd5656;
+  color: #fff;
+  width: 120%;
+  height: 0;
+  padding-bottom: 120%;
+  top: -110%;
+  left: -10%;
+  border-radius: 50%;
+  transform: translate3d(0, 68%, 0) scale3d(0, 0, 0);
+}
+
+.style-button--calypso:hover::before {
+  transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  transition: transform 0.4s cubic-bezier(0.1, 0, 0.3, 1);
+}
+
+.style-button--calypso::after {
+  content: "";
+  background: #bd5656;
+  transform: translate3d(0, -100%, 0);
+  transition: transform 0.4s cubic-bezier(0.1, 0, 0.3, 1);
+}
+
+.style-button--calypso:hover::after {
+  transform: translate3d(0, 0, 0);
+  transition-duration: 0.05s;
+  transition-delay: 0.4s;
+  transition-timing-function: linear;
 }

@@ -1,125 +1,122 @@
 "use client";
 import CodeEditor from "@/components/CodeEditor";
 import ColorSelector from "@/components/ColorSelector";
-// import ImagePicker from "@/components/ImageSelector";
 import LanguageSelector from "@/components/LanguageSelector";
 import PaddingSelector from "@/components/PaddingSelector";
 import ThemeSelector from "@/components/ThemeSelector";
 import useCanvasStore from "@/store/canvasStore";
-import { Download, Info, LucideCopy, Share } from "lucide-react";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Download, Moon, Sun } from "lucide-react";
 import ImageSelectorNew from "@/components/Images";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useTransform, useMotionValue } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import Lenis from "@studio-freight/lenis";
+import FontSize from "@/components/FontSize";
+import Image from "next/image";
+import Codeslate from "../public/Codeslate_logo.png";
+import Share from "@/components/Share";
+import { useDarkMode } from "@/hooks/useDarkmode";
+import Link from "next/link";
 
-//dark/light mode for code editor
-//Integrating AI in this:
-//1. refactoring code that user pasted -> can the AI shorten that code,
-// suggest better variable/function names
-//color- [#6f6e6e]
-// debouncing  to ensure that a function is not called too frequently,
-// in this case searching frequently for unsplash image
-//could limit the no of api calls
-//export button animation filling
+// debouncing on api
+//text animation using gsap
 
 export default function Home() {
-  const { code, setTriggerDownload } = useCanvasStore();
-  const { scrollY } = useScroll();
+  const { setTriggerDownload } = useCanvasStore();
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const containerRef = useRef(null);
+  const scrollY = useMotionValue(0);
+  const { toggle } = useDarkMode();
 
-  const copyContent = () => {
-    navigator.clipboard
-      .writeText(code)
-      .then(() => {
-        toast.success("Code copied to clipboard!", {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      })
-      .catch((err) => {
-        toast.error("Failed to copy!", {
-          position: "top-center",
-          autoClose: 2000,
-          theme: "dark",
-        });
-        console.error("Failed to copy: ", err);
-      });
-  };
+  useEffect(() => {
+    const lenis = new Lenis();
 
-  // Define transformations
-  const yBackground = useTransform(scrollY, [0, 500], ["0%", "-20%"]); // Moves up faster
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    lenis.on("scroll", (e: { scroll: number }) => {
+      scrollY.set(e.scroll);
+    });
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, [scrollY]);
+
+  const scrollYProgress = useTransform(scrollY, [0, 500], [0, 1]);
+  const translateY = useTransform(scrollYProgress, [0, 1], ["0%", "-40%"]);
 
   return (
-    <div className="w-full h-full overflow-hidden">
-      <motion.div style={{ y: yBackground }} className="rounded-lg" />
-      <div className="relative flex flex-col items-center gap-10 w-full rounded-lg">
-        <CodeEditor />
-        {/* navbar */}
-        <div className="fixed z-20 flex justify-between bg-[#181818] w-full py-4 px-16">
-          <h1 className="text-white text-md">codeslate</h1>
-          <Dialog>
-            <DialogTrigger className="flex gap-2 items-center text-white text-md">
-              <Info className="w-4 h-4" />
-              About
-            </DialogTrigger>
-            <DialogContent className="h-[30rem] border-[#3c3c3c] bg-[#181818] text-white">
-              <DialogHeader>
-                <DialogTitle className="text-white text-md">About</DialogTitle>
-                <DialogDescription className="text-white pt-5 mr-24 font-sesame">
-                  Codeslate is a tool to create beautiful screenshots of your
-                  code. <br /> <br />
-                  Pick a theme from a range of colors and backgrounds the
-                  language of your code or choose the kind of image you want as
-                  background. <br /> <br />
-                  Customize the padding and when you are ready, click export in
-                  the bottom tab to save the image as png.
-                </DialogDescription>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-        </div>
-        {/* tab of tools */}
-        <div className=" bg-[#191919] z-50  bottom-0 border-[1px]  border-[#3c3c3c] text-white rounded-lg px-6 py-4 flex items-center gap-6">
-          <LanguageSelector />
-          <ThemeSelector />
-          <PaddingSelector />
-          <ColorSelector />
-          <ImageSelectorNew />
-          <button onClick={copyContent}>
-            <LucideCopy />
-          </button>
-          {/* <Share /> how to incorporate this, will think */}
-          <div
-            onClick={() => setTriggerDownload(true)}
-            className="flex items-center gap-2 bg-[#3e1c1c]  border-[1px] border-[#ff6161] px-3 py-1 rounded-md cursor-pointer"
-          >
-            <Download stroke="#ff6161" className="w-5 h-5" />
-            <h1 className="font-sesame text-sm text-[#ff6161]">Export image</h1>
+    <div ref={containerRef} className="relative">
+      <motion.div className="h-[120vh] z-50">
+        <motion.div
+          style={{ y: translateY }}
+          className="relative z-50 dark:bg-[#0d0d0d] bg-[#F5F5F5] flex flex-col items-center gap-10 w-full rounded-b-2xl"
+        >
+          <CodeEditor setImageFile={setImageFile} />
+          {/* navbar */}
+          <div className="fixed flex justify-between items-center shadow-2xl dark:bg-[#181818] bg-white w-full py-[6px] px-28">
+            <div className="bg-transparent w-10 h-10 p-[1px] shadow-2xl rounded-lg cursor-pointer hover:rotate-6 ease-in-out">
+              <Image
+                src={Codeslate}
+                alt="codeslate"
+                width={500}
+                height={500}
+                className=""
+              />
+            </div>
+            <button onClick={toggle} className="cursor-pointer">
+              <Sun className="lucide lucide-sun absolute right-28 top-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon
+                stroke="white"
+                className="lucide lucide-moon absolute right-28 top-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
+              />
+            </button>
           </div>
-        </div>
-      </div>
-      <ToastContainer />
-      {/* Succeeding Div */}
-      <motion.div className="relative left-0 w-full h-[15rem] ">
-        <video autoPlay loop muted className="h-[15rem] w-full object-cover">
-          <source src="/UpdateFade_smaller.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2   flex items-center justify-center text-white text-2xl ">
-          Go touch some grass, anon.
-        </div>
+          {/* tab of tools */}
+          <div className="dark:bg-[#191919] bg-[#FFFFFF] bottom-0 border-[1px] dark:border-[#3c3c3c] border-[#E5E7EB] shadow-2xl dark:text-white text-black rounded-lg px-4 py-4 flex items-center gap-4">
+            <LanguageSelector />
+            <ThemeSelector />
+            <PaddingSelector />
+            <FontSize />
+            <ColorSelector />
+            <ImageSelectorNew />
+            <Share imageFile={imageFile} disabled={!imageFile} />
+            <div
+              onClick={() => setTriggerDownload(true)}
+              className="style-button style-button--calypso bg-[#3e1c1c]  border-[1px] border-[#ff6161] px-3 py-1 rounded-md cursor-pointer"
+            >
+              <span className="flex items-center gap-2 font-sesame text-base text-[#ff6161]">
+                <Download stroke="#ff6161" className="w-5 h-5" />
+                <h1>Export image</h1>
+              </span>
+            </div>
+          </div>
+        </motion.div>
       </motion.div>
+      {/* Succeeding Div */}
+      <div className="absolute bottom-0 w-full ">
+        <motion.footer className="w-full z-0">
+          <video autoPlay loop muted className="h-[15rem] w-full object-cover">
+            <source src="/UpdateFade_smaller.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute w-full top-1/2 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center ">
+            <h1 className="text-2xl text-white">step outside, anon.</h1>
+            <h1 className="text-xs mt-14 font-sesame font-light text-white">
+              Made with 🌻 by{" "}
+              <Link
+                href={"https://bento.me/vartikajain"}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Vartika{" "}
+              </Link>
+            </h1>
+          </div>
+        </motion.footer>
+      </div>
     </div>
   );
 }

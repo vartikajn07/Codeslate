@@ -1,13 +1,11 @@
 "use client";
 import { fetchRandomImages } from "@/services/imageService";
 import useCanvasStore from "@/store/canvasStore";
-import { CircleX, Image, RefreshCw, Trash, Upload } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import { CircleX, Image, Upload } from "lucide-react";
+import React, { useEffect, useRef } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -25,7 +23,6 @@ const ImageSelectorNew = () => {
     setIsUnsplashLoading,
     photoCredit,
     photoCreditLink,
-    setPhotoCredit,
   } = useCanvasStore();
 
   useEffect(() => {
@@ -48,6 +45,7 @@ const ImageSelectorNew = () => {
     setBackgroundType("image");
   };
 
+  //random unsplash image
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     fetchUnsplashImages();
@@ -81,9 +79,9 @@ const ImageSelectorNew = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="focus:outline-none">
-        <Image />
+        <Image className="mx-1" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[17rem] h-[20.5rem] py-3 px-2 bg-[#191919] text-white font-sesame font-light">
+      <DropdownMenuContent className="w-[17rem] h-[20.5rem] py-3 px-2 dark:bg-[#191919] bg-[#F9FAFB] text-black dark:text-white font-sesame font-light">
         {backgroundImage ? (
           <div className="relative flex flex-col items-start gap-1">
             <h1 className="text-[12px]">Background Image</h1>
@@ -185,28 +183,3 @@ const ImageSelectorNew = () => {
 };
 
 export default ImageSelectorNew;
-
-// const handleImageUpload = (e: React.ChangeEvent) => {
-//   const file = e.target.files?.[0];
-//   if (file) {
-//     const reader = new FileReader();
-//     reader.onload = (event) => {
-//       const imageUrl = event.target?.result as string;
-//       setBackgroundImage(imageUrl);
-//       setBackgroundType("image");
-//     };
-//     reader.readAsDataURL(file);
-//   }
-// };
-
-// const handleButtonClick = () => {
-//   fileInputRef.current?.click();
-// };
-
-// const removeImage = () => {
-//   setBackgroundImage(null);
-//   setBackgroundType("color");
-//   if (fileInputRef.current) {
-//     fileInputRef.current.value = "";
-//   }
-// };

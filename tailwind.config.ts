@@ -60,6 +60,7 @@ export default {
         season: ["Season", "sans-serif"],
         sesame: ["Sesame", "sans-serif"],
       },
+      fontSize: { xs: "12px" },
     },
   },
   plugins: [require("tailwindcss-animate")],

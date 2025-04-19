@@ -1,19 +1,16 @@
 // services/unsplashService.ts
 const UNSPLASH_ACCESS_KEY = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
 
-type Photo = {
+export interface UnsplashImage {
   id: string;
-  urls: {
-    regular: string;
-    thumb: string;
-  };
+  url: string;
+  thumb: string;
   user: {
     name: string;
-    links: {
-      html: string;
-    };
+    link: string;
   };
-};
+  downloadLocation: string;
+}
 
 export const fetchRandomImages = async () => {
   try {
@@ -27,7 +24,6 @@ export const fetchRandomImages = async () => {
     }
 
     const data = await response.json();
-    console.log(data);
     return {
       id: data.id,
       url: data.urls.regular,
@@ -36,9 +32,9 @@ export const fetchRandomImages = async () => {
         name: data.user.name,
         link: data.user.links.html,
       },
+      downloadLocation: data.links.download_location,
     };
   } catch (error) {
-    console.error("Error fetching Unsplash image:", error);
     return null;
   }
 };

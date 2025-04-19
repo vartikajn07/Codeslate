@@ -16,7 +16,10 @@ const ColorSelector = () => {
 
   return (
     <OutsideClickHandler onOutsideClick={() => setDropdown(false)}>
-      <Palette className="w-6 h-6 cursor-pointer" onClick={handleDropdown} />
+      <Palette
+        className="mx-1 w-6 h-6 cursor-pointer"
+        onClick={handleDropdown}
+      />
 
       {dropDown && (
         <div className="absolute z-10 bottom-16">
