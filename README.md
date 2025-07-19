@@ -1,6 +1,7 @@
 # Codeslate
 
 A modern web app to generate, customize, and share aesthetic code snippet images.
+[codeslate-bice.vercel.app](https://codeslate-bice.vercel.app/)
 
 ## 🚀 Overview
 
@@ -68,8 +69,6 @@ Visit http://localhost:3000
 - Zustand offered surprisingly elegant control over state without boilerplate
 - Supabase’s public bucket URL generation was simple yet powerful
 - Styling consistency across shadcn/ui and Tailwind required some overrides
-
-[codeslate-bice.vercel.app](https://codeslate-bice.vercel.app/)
 
 ## 🧠 Future Improvements
 
