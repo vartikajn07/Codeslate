@@ -1,7 +1,7 @@
 "use client";
 import { fetchRandomImages } from "@/services/imageService";
 import useCanvasStore from "@/store/canvasStore";
-import { CircleX, Image, Upload } from "lucide-react";
+import { CircleX, Image as ImageIcon, Upload } from "lucide-react";
 import React, { useEffect, useRef } from "react";
 import {
   DropdownMenu,
@@ -80,7 +80,7 @@ const ImageSelectorNew = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="focus:outline-none">
-        <Image className="mx-1" />
+        <ImageIcon className="mx-1" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[17rem] h-[20.5rem] py-3 px-2 dark:bg-[#191919] bg-[#F9FAFB] text-black dark:text-white font-sesame font-light">
         {backgroundImage ? (

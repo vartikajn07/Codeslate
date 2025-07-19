@@ -16,7 +16,6 @@ const CodeEditor = ({
   const [image, setImage] = useState<UnsplashImage | null>(null);
   const [height] = React.useState<number | null>(500);
   const [popup, setPopup] = useState(false); //popup
-  const [hideEditor, setHideEditor] = useState(false); //triggering download hiding editor
   const {
     code,
     setCodeWithPhotoCredit,
@@ -65,7 +64,11 @@ const CodeEditor = ({
   useEffect(() => {
     if (triggerDownload && image) {
       handleDownload(image);
-      setTriggerDownload(false);
+      setPopup(true);
+      setTimeout(() => {
+        setPopup(false);
+        setTriggerDownload(false);
+      }, 1150);
     }
   }, [triggerDownload, image, setTriggerDownload]);
 
@@ -101,19 +104,6 @@ const CodeEditor = ({
     });
   };
 
-  //popup on download
-  useEffect(() => {
-    if (triggerDownload) {
-      setHideEditor(true);
-      setTimeout(() => setHideEditor(false), 1100);
-      setPopup(true);
-      setTimeout(() => {
-        setPopup(false);
-        setTriggerDownload(false);
-      }, 1150);
-    }
-  }, [triggerDownload]);
-
   return (
     <div className="">
       <div
@@ -128,9 +118,7 @@ const CodeEditor = ({
           backgroundColor: backgroundType === "color" ? color : undefined,
           padding: `${padding}px`,
         }}
-        className={`code-block mt-[90px] w-[40rem] h-[30rem] relative flex flex-col items-center transition-opacity duration-200 ease-in-out ${
-          hideEditor ? "opacity-0" : "opacity-100"
-        }  `}
+        className={`code-block mt-[90px] w-[40rem] h-[30rem] relative flex flex-col items-center transition-opacity duration-200 ease-in-out  `}
       >
         <div
           className={`code-title w-[31.3rem] mt-10 ${
@@ -181,8 +169,9 @@ const CodeEditor = ({
         />
       </div>
       {popup && (
-        <div className="absolute z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ">
-          <h1 className="flex items-center gap-3 rounded-lg font-sesame px-4 py-2 bg-[#191919] text-white">
+        <div className="absolute z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="blob1"></div>
+          <h1 className="inner flex items-center gap-3 rounded-lg font-sesame px-3 py-1 text-white">
             <Image className="w-4 h-5" stroke="white" />
             Exporting png
           </h1>
